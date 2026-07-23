@@ -30,7 +30,7 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('/admin/dashboard/export', [\App\Http\Controllers\Web\AdminOrderController::class, 'exportExcel']);
     
     Route::get('/admin/pesanan', [\App\Http\Controllers\Web\AdminOrderController::class, 'index']);
-    Route::get('/admin/pesanan/baru', [\App\Http\Controllers\Web\AdminOrderController::class, 'create']);
+
     Route::post('/admin/pesanan', [\App\Http\Controllers\Web\AdminOrderController::class, 'store']);
     Route::get('/admin/pesanan/{id}', [\App\Http\Controllers\Web\AdminOrderController::class, 'show']);
     Route::put('/admin/pesanan/{id}', [\App\Http\Controllers\Web\AdminOrderController::class, 'update']);

@@ -106,6 +106,253 @@
   </div>
 </section>
 
+<!-- Kategori Produk Section -->
+<section class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-black text-gray-900 mb-3">Kategori Produk</h2>
+      <p class="text-gray-500 text-base">Kategori produk andalan</p>
+    </div>
+
+    @php
+    $categories = [
+      ['id' => 'tas', 'name' => 'TAS', 'images' => [
+        'https://maujahit.com/storage/products/01KAD0DK6F8S0B4EQK248TCNKF.jpg',
+        'https://maujahit.com/storage/products/01KAD0GVC0YPA6K47Y0CCWAADR.jpg',
+        'https://maujahit.com/storage/products/01KAD15TJA5EYYMKX1VKAZ7S6R.png',
+        'https://maujahit.com/storage/products/01KAD16CNPBRH7RHXZ8TY49JR3.png',
+      ]],
+      ['id' => 'kemeja', 'name' => 'KEMEJA', 'images' => [
+        'https://maujahit.com/storage/products/01KADFTHXGYWNVZMTPCQVJQ189.png',
+        'https://maujahit.com/storage/products/01KADFVANZC48VZQQMG5VM9CJ1.png',
+        'https://maujahit.com/storage/products/01KADFVXJ4CVM85XY25CHC7S3H.png',
+        'https://maujahit.com/storage/products/01KADFWJ97ENKVF0BVV1F4AVQ9.png',
+        'https://maujahit.com/storage/products/01KA8MZYCXY5Q5W4FWMDSZYF85.png',
+        'https://maujahit.com/storage/products/01KA8MFS2YVHKVF314JDBXA89S.png',
+        'https://maujahit.com/storage/products/01KA8MJCD8B6G5SKQP2P9DSYYV.png',
+        'https://maujahit.com/storage/products/01KA8MM4187DY19R13Z010X73W.png',
+      ]],
+      ['id' => 'rompi', 'name' => 'ROMPI', 'images' => [
+        'https://maujahit.com/storage/products/01KA8KPPJT87HX0V4KN4540FMA.png',
+        'https://maujahit.com/storage/products/01KA8KR6TXZJW9KEGQY8X7Z1RD.png',
+        'https://maujahit.com/storage/products/01KA8JWRQHGZ2CSZQMM0K29QGE.png',
+        'https://maujahit.com/storage/products/01KA8JXNC65BCM2QXNXQCM7MAM.png',
+        'https://maujahit.com/storage/products/01KA8K1G9D10PBXT8N70GNSYC3.png',
+        'https://maujahit.com/storage/products/01KA8MB4ZHA7B056NH35ED4K29.png',
+      ]],
+      ['id' => 'jaket', 'name' => 'JAKET', 'images' => [
+        'https://maujahit.com/storage/products/01KA8C91QJ79C6DQF6356EVDQV.png',
+        'https://maujahit.com/storage/products/01KA8CACHF7V6ZMHTA110W0DMX.png',
+        'https://maujahit.com/storage/products/01KA8CB06MW6T8ZKSVR6J9JGCM.png',
+        'https://maujahit.com/storage/products/01KA8CBNCHA1KMD26MYSB1XVMJ.png',
+        'https://maujahit.com/storage/products/01KA8CDMYZ7TPM3BV0RBT7Q018.png',
+        'https://maujahit.com/storage/products/01KA8CDZFZ4Y89NCJV1N0A5G41.png',
+        'https://maujahit.com/storage/products/01KA8CE94YN1KS4KKQ9Q2MS0G6.png',
+        'https://maujahit.com/storage/products/01KA8CER47YRN789D2G8MDQACR.png',
+      ]],
+      ['id' => 'kaos_pendek', 'name' => 'KAOS PENDEK', 'images' => [
+        'https://maujahit.com/storage/products/01KA7YD7GJSSGN7EFX46MCZ2M9.png',
+        'https://maujahit.com/storage/products/01KA7ZD818Q856VS9E2HET9SMD.png',
+        'https://maujahit.com/storage/products/01KA7ZN64SRBDC3THQMRJDFMES.png',
+        'https://maujahit.com/storage/products/01KA89PX4Q7T5H1VANGF9QZARE.png',
+        'https://maujahit.com/storage/products/01KA89N027GJKXFRM03TSBHAR2.png',
+        'https://maujahit.com/storage/products/01KA89TE9KG59SKAASZ75ZY9MG.png',
+        'https://maujahit.com/storage/products/01KA89Z5RFYT1GGFJVFCBMS81Q.png',
+      ]],
+      ['id' => 'jersey', 'name' => 'JERSEY', 'images' => [
+        'https://maujahit.com/storage/products/01KA7XKZYMHWXMPGDZAV25TGMG.png',
+        'https://maujahit.com/storage/products/01KA7X78XV88HYA5G5FQNPVZGT.png',
+        'https://maujahit.com/storage/products/01KA7XWC53AZMFFT21TJEXH7WX.png',
+        'https://maujahit.com/storage/products/01KA7XY3H6JQF1WCES6PNNGERM.png',
+        'https://maujahit.com/storage/products/01KA7Y02Z17TT0HJ68X6YMJRYE.png',
+        'https://maujahit.com/storage/products/01KA7Y0FB9VZPV36QVDXMK2E9C.png',
+        'https://maujahit.com/storage/products/01KA7Y1KWRRB91MXYVFTA1K4ZB.png',
+      ]],
+      ['id' => 'polo', 'name' => 'POLO SHIRT', 'images' => [
+        'https://maujahit.com/storage/products/01KA8N6XZ88YQH3PDDX01S98HJ.png',
+        'https://maujahit.com/storage/products/01KA7WGFK6VY4YGHWHCN8MD75C.jpeg',
+        'https://maujahit.com/storage/products/01KA7X6A8RGTWTYRAPZD9W9001.jpeg',
+        'https://maujahit.com/storage/products/01KA7XGP05YT616SC7VVMHMJ37.jpeg',
+      ]],
+      ['id' => 'kaos_panjang', 'name' => 'KAOS PANJANG', 'images' => [
+        'https://maujahit.com/storage/products/01KA7WJ96NX3AYFR4KPVG2YGNW.jpeg',
+        'https://maujahit.com/storage/products/01KA7WM8YRAP6WQMVYZTVYT32F.jpeg',
+        'https://maujahit.com/storage/products/01KA81DQTHZQAB66KW9Q35Q6J2.jpg',
+        'https://maujahit.com/storage/products/01KA8248B5D1MEJSDXG1GB2Q53.png',
+        'https://maujahit.com/storage/products/01KA828BK6QYFJF5316P9GSGE2.png',
+      ]],
+    ];
+    @endphp
+
+    <div class="produk-grid">
+      @foreach($categories as $catIdx => $category)
+        @php
+          $images = $category['images'];
+          $delay  = 2800 + $catIdx * 350;
+        @endphp
+        <div class="produk-card"
+             x-data="{
+               activeIndex: 0,
+               images: {{ json_encode($images) }},
+               timer: null,
+               init() { this.startSlide(); },
+               startSlide() {
+                 this.timer = setInterval(() => {
+                   this.activeIndex = (this.activeIndex + 1) % this.images.length;
+                 }, {{ $delay }});
+               },
+               stopSlide() { clearInterval(this.timer); },
+               pick(i) { this.activeIndex = i; this.stopSlide(); this.startSlide(); }
+             }">
+
+          <!-- Judul -->
+          <h3 style="font-size:1rem;font-weight:900;letter-spacing:.1em;text-align:center;margin-bottom:1rem;text-transform:uppercase;color:#111827;">{{ $category['name'] }}</h3>
+
+          <!-- Gambar Utama -->
+          <div class="produk-main-img" @mouseenter="stopSlide" @mouseleave="startSlide">
+            @foreach($images as $idx => $img)
+              <img src="{{ $img }}"
+                   x-show="activeIndex === {{ $idx }}"
+                   x-transition.opacity.duration.400ms
+                   alt="{{ $category['name'] }}"
+                   @if($idx > 0) style="display:none" @endif />
+            @endforeach
+          </div>
+
+          <!-- Thumbnails -->
+          <div class="produk-thumbs">
+            @foreach($images as $idx => $img)
+              <button @click="pick({{ $idx }})"
+                      class="produk-thumb-btn"
+                      :class="activeIndex === {{ $idx }} ? 'active' : 'inactive'">
+                <img src="{{ $img }}" alt="{{ $category['name'] }}" loading="lazy" />
+              </button>
+            @endforeach
+          </div>
+
+        </div>
+      @endforeach
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Galeri Kegiatan Section -->
+<section style="padding:5rem 0;background:#f9fafb;"
+         x-data="{
+           open: false,
+           type: '',
+           src: '',
+           caption: '',
+           openItem(t,s,c){ this.type=t; this.src=s; this.caption=c; this.open=true; },
+           close(){ this.open=false; this.src=''; }
+         }">
+
+  <div style="max-width:1280px;margin:0 auto;padding:0 2rem;">
+
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:3rem;">
+      <h2 style="font-size:2.25rem;font-weight:900;color:#111827;margin-bottom:0.5rem;">Galeri Kegiatan</h2>
+      <p style="color:#6b7280;font-size:1rem;">Galeri Foto</p>
+    </div>
+
+    <!-- Grid: 4 kolom, 2 baris -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+
+      @php
+      $items = [
+        ['type'=>'video','src'=>'https://youtube.com/embed/JQ7DW-xbVIs?autoplay=1','thumb'=>'https://i.ytimg.com/vi/JQ7DW-xbVIs/hqdefault.jpg','caption'=>'Semangat Produksi'],
+        ['type'=>'video','src'=>'https://www.youtube.com/embed/nBV5av31p8I?autoplay=1','thumb'=>'https://i.ytimg.com/vi/nBV5av31p8I/hqdefault.jpg','caption'=>'Produksi 1.200 PCS'],
+        ['type'=>'video','src'=>'https://www.youtube.com/embed/PnPcQADIoiY?autoplay=1','thumb'=>'https://i.ytimg.com/vi/PnPcQADIoiY/hqdefault.jpg','caption'=>'Kegiatan Tim Menjahit'],
+        ['type'=>'photo','src'=>'https://maujahit.com/storage/01KA80CYA9Z34K9SHDQWR8BTYS.jpg','thumb'=>'https://maujahit.com/storage/01KA80CYA9Z34K9SHDQWR8BTYS.jpg','caption'=>'Proses Produksi'],
+        ['type'=>'video','src'=>'https://www.youtube.com/embed/KXFGiaEcvtY?autoplay=1','thumb'=>'https://i.ytimg.com/vi/KXFGiaEcvtY/hqdefault.jpg','caption'=>'Client Mau Jahit'],
+        ['type'=>'photo','src'=>'https://maujahit.com/storage/01KA80BB3KED2YXXGW6PH5SEF8.jpg','thumb'=>'https://maujahit.com/storage/01KA80BB3KED2YXXGW6PH5SEF8.jpg','caption'=>'Kunjungan Artis Ali Syakieb'],
+        ['type'=>'video','src'=>'https://www.youtube.com/embed/wbLeFg1tRgY?autoplay=1','thumb'=>'https://i.ytimg.com/vi/wbLeFg1tRgY/hqdefault.jpg','caption'=>'Company Profile Mau Jahit'],
+        ['type'=>'video','src'=>'https://www.youtube.com/embed/0rfv95bcSA0?autoplay=1','thumb'=>'https://i.ytimg.com/vi/0rfv95bcSA0/hqdefault.jpg','caption'=>'Proses Produksi di Maujahit'],
+        ['type'=>'photo','src'=>'https://maujahit.com/storage/01K9Y37Q9PMD26WRN8QTV68MRJ.jpg','thumb'=>'https://maujahit.com/storage/01K9Y37Q9PMD26WRN8QTV68MRJ.jpg','caption'=>'Foto Bersama All Team Maujahit'],
+        ['type'=>'photo','src'=>'https://maujahit.com/storage/01K9Y38JZ2QD02EA6PH9YV6DVS.jpeg','thumb'=>'https://maujahit.com/storage/01K9Y38JZ2QD02EA6PH9YV6DVS.jpeg','caption'=>'Proses Produksi'],
+      ];
+      @endphp
+
+      @foreach($items as $item)
+        <div
+          @click="openItem('{{ $item['type'] }}','{{ $item['src'] }}','{{ $item['caption'] }}')"
+          style="position:relative;overflow:hidden;border-radius:10px;cursor:pointer;height:200px;background:#e5e7eb;"
+          onmouseenter="this.querySelector('img').style.transform='scale(1.06)';this.querySelector('.gi-overlay').style.background='rgba(0,0,0,0.48)';"
+          onmouseleave="this.querySelector('img').style.transform='scale(1)';this.querySelector('.gi-overlay').style.background='rgba(0,0,0,0)';">
+
+          <img src="{{ $item['thumb'] }}" alt="{{ $item['caption'] }}"
+               style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s ease;" />
+
+          <div class="gi-overlay"
+               style="position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:background 0.3s;gap:8px;">
+            @if($item['type'] === 'video')
+              <div style="width:52px;height:52px;border:2px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.2);">
+                <svg viewBox="0 0 24 24" fill="white" width="28" height="28"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            @endif
+            <span style="color:white;font-size:0.75rem;font-weight:700;text-align:center;padding:0 10px;text-shadow:0 1px 4px rgba(0,0,0,0.7);">{{ $item['caption'] }}</span>
+          </div>
+        </div>
+      @endforeach
+
+    </div>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div :style="open
+         ? 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:99999;display:flex;align-items:center;justify-content:center;padding:1.5rem;box-sizing:border-box;'
+         : 'display:none;'">
+
+    <!-- Card Modal -->
+    <div style="position:relative;width:100%;max-width:1000px;background:#111827;border-radius:20px;overflow:hidden;box-shadow:0 25px 80px rgba(0,0,0,0.7);">
+
+      <!-- Header bar -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:#1f2937;border-bottom:1px solid rgba(255,255,255,0.08);">
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+          <!-- Dot indicator (type icon) -->
+          <div x-show="type === 'video'"
+               style="width:10px;height:10px;border-radius:50%;background:#ef4444;"></div>
+          <div x-show="type === 'photo'"
+               style="width:10px;height:10px;border-radius:50%;background:#3b82f6;"></div>
+          <span x-text="caption"
+                style="color:rgba(255,255,255,0.85);font-size:0.9rem;font-weight:600;letter-spacing:0.02em;"></span>
+        </div>
+        <!-- Tombol Close -->
+        <button @click="close()"
+                style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.25);color:white;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;"
+                onmouseenter="this.style.background='rgba(239,68,68,0.7)'"
+                onmouseleave="this.style.background='rgba(255,255,255,0.1)'">✕</button>
+      </div>
+
+      <!-- Konten -->
+      <div style="padding:1.5rem;">
+
+        <!-- Video -->
+        <div x-show="type === 'video'"
+             style="position:relative;padding-bottom:56.25%;border-radius:12px;overflow:hidden;background:#000;">
+          <iframe :src="src"
+                  style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
+                  allow="autoplay;encrypted-media;fullscreen"
+                  allowfullscreen></iframe>
+        </div>
+
+        <!-- Foto -->
+        <div x-show="type === 'photo'" style="display:flex;justify-content:center;align-items:center;background:#000;border-radius:12px;overflow:hidden;">
+          <img :src="src" :alt="caption"
+               style="width:100%;max-height:80vh;object-fit:contain;display:block;" />
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
 <!-- CTA Section -->
 <section class="py-20 relative overflow-hidden">
   <div class="absolute inset-0 bg-[#0d1f3c]"></div>

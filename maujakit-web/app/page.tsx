@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import ProductCategories from '@/components/ProductCategories';
 
 export const metadata: Metadata = {
   title: 'MauJahit.id — Vendor Konveksi Terpercaya',
@@ -174,6 +175,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <ProductCategories />
 
       <Footer />
     </div>

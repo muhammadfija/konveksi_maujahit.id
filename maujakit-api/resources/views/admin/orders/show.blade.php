@@ -4,7 +4,8 @@
 
 @section('content')
 <div x-data="{ 
-    editMode: false, 
+    showEditModal: {{ $errors->any() ? 'true' : 'false' }}, 
+    deleteModal: false,
     updateStatusModal: false, 
     uploadPhotoModal: false,
     lightboxUrl: null
@@ -23,8 +24,8 @@
                     @php
                         $statusColors = [
                             'ORDER_MASUK' => 'bg-gray-100 text-gray-800 border-gray-200',
-                            'SELESAI' => 'bg-green-100 text-green-800 border-green-200',
-                            'MENUNGGU_PELUNASAN' => 'bg-purple-100 text-purple-800 border-purple-200',
+                            'KIRIM' => 'bg-green-100 text-green-800 border-green-200',
+                            'DP_PELUNASAN' => 'bg-purple-100 text-purple-800 border-purple-200',
                         ];
                         $colorClass = $statusColors[$order->current_status] ?? 'bg-blue-100 text-blue-800 border-blue-200';
                     @endphp
@@ -90,25 +91,21 @@
                     <h3 class="font-bold text-gray-900">Informasi Pesanan</h3>
                     <div class="flex gap-2">
                         @if(in_array(session('admin_role', 'owner'), ['owner', 'admin_cs']))
-                        <button @click="editMode = !editMode" class="text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg transition-colors">
-                            <span x-text="editMode ? 'Batal Edit' : 'Edit Data'"></span>
+                        <button @click="showEditModal = true" class="text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg transition-colors">
+                            Edit Data
                         </button>
                         @endif
 
                         @if(session('admin_role', 'owner') === 'owner')
-                        <form action="{{ url('/admin/pesanan/' . $order->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus pesanan ini?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-sm font-medium text-red-600 hover:text-red-700 bg-red-50 px-3 py-1.5 rounded-lg transition-colors">
-                                Hapus
-                            </button>
-                        </form>
+                        <button @click="deleteModal = true" class="text-sm font-medium text-red-600 hover:text-red-700 bg-red-50 px-3 py-1.5 rounded-lg transition-colors">
+                            Hapus
+                        </button>
                         @endif
                     </div>
                 </div>
 
                 <!-- Display Mode -->
-                <div x-show="!editMode" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-4">
                         <div>
                             <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Nama Pemesan</p>
@@ -168,84 +165,7 @@
                     @endif
                 </div>
 
-                <!-- Edit Mode Form -->
-                <form x-show="editMode" style="display: none;" action="{{ url('/admin/pesanan/' . $order->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Nama Pemesan</label>
-                            <input type="text" name="customer_name" value="{{ $order->customer_name }}" required class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-[#1e3a6e] focus:border-[#1e3a6e] text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">WhatsApp</label>
-                            <input type="text" name="whatsapp" value="{{ $order->whatsapp }}" required class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-[#1e3a6e] focus:border-[#1e3a6e] text-sm">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Instansi / Perusahaan</label>
-                            <input type="text" name="company_name" value="{{ $order->company_name }}" class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-[#1e3a6e] focus:border-[#1e3a6e] text-sm">
-                        </div>
-                        
-                        <div class="col-span-1 md:col-span-2 border-t border-gray-100 my-2"></div>
-                        
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Jenis Produk</label>
-                            <input type="text" name="product_type" value="{{ $order->product_type }}" required class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-[#1e3a6e] focus:border-[#1e3a6e] text-sm">
-                        </div>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div>
-                                <label class="block text-xs font-semibold text-gray-600 mb-1">Warna</label>
-                                <input type="text" name="color" value="{{ $order->color }}" required class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-[#1e3a6e] focus:border-[#1e3a6e] text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-gray-600 mb-1">Jumlah</label>
-                                <input type="number" name="quantity" value="{{ $order->quantity }}" required min="1" class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-[#1e3a6e] focus:border-[#1e3a6e] text-sm">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Estimasi Selesai</label>
-                            <input type="date" name="estimated_finish" value="{{ substr($order->estimated_finish, 0, 10) }}" required class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-[#1e3a6e] focus:border-[#1e3a6e] text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">No. Resi Pengiriman</label>
-                            <input type="text" name="resi_number" value="{{ $order->resi_number }}" placeholder="Kosongkan jika belum ada" class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-[#1e3a6e] focus:border-[#1e3a6e] text-sm">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-semibold text-gray-600 mb-2">Prioritas Pesanan</label>
-                            <div class="flex gap-4">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="is_priority" value="0" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" {{ !$order->is_priority ? 'checked' : '' }}>
-                                    <span class="ml-2 text-sm text-gray-700 font-medium">Normal</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="is_priority" value="1" class="w-4 h-4 text-red-600 border-gray-300 focus:ring-red-500" {{ $order->is_priority ? 'checked' : '' }}>
-                                    <span class="ml-2 text-sm text-red-600 font-medium flex items-center gap-1">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                                        Prioritas
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                        @if(in_array(session('admin_role', 'owner'), ['owner', 'keuangan']))
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Total Harga / Omzet (Rp)</label>
-                            <input type="number" name="total_price" value="{{ $order->total_price }}" min="0" placeholder="0" class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-[#1e3a6e] focus:border-[#1e3a6e] text-sm">
-                        </div>
-                        @else
-                        <input type="hidden" name="total_price" value="{{ $order->total_price }}">
-                        @endif
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Catatan Tambahan</label>
-                            <textarea name="notes" rows="2" class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-[#1e3a6e] focus:border-[#1e3a6e] text-sm">{{ $order->notes }}</textarea>
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-end gap-2 pt-4 border-t border-gray-100">
-                        <button type="button" @click="editMode = false" class="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">Batal</button>
-                        <button type="submit" class="px-4 py-2 text-sm font-medium bg-[#1e3a6e] text-white hover:bg-[#132848] rounded-lg transition-colors">Simpan Perubahan</button>
-                    </div>
-                </form>
+
 
             </div>
         </div>
@@ -420,6 +340,152 @@
         </div>
     </div>
 
+    <!-- Edit Modal -->
+    <!-- Edit Modal -->
+    <div x-show="showEditModal" style="display: none;" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div x-show="showEditModal" x-transition.opacity class="fixed inset-0 bg-gray-500/75 backdrop-blur-sm transition-opacity" aria-hidden="true" @click="showEditModal = false"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div x-show="showEditModal" x-transition class="relative inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
+                <form action="{{ url('/admin/pesanan/' . $order->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                            </div>
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                                <h3 class="text-lg leading-6 font-bold text-gray-900" id="modal-title">Edit Pesanan</h3>
+                                
+                                @if ($errors->any())
+                                    <div class="mt-2 p-3 rounded-xl bg-red-50 border border-red-200">
+                                        <h3 class="font-bold text-red-800 text-xs mb-1">Terdapat Kesalahan Input</h3>
+                                        <ul class="list-disc pl-4 text-[11px] text-red-600 space-y-1">
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
 
+                                <div class="mt-4 space-y-4 max-h-[60vh] overflow-y-auto custom-scrollbar pr-2">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Pemesan <span class="text-red-500">*</span></label>
+                                        <input type="text" name="customer_name" value="{{ old('customer_name', $order->customer_name) }}" required class="shadow-sm focus:ring-[#1e3a6e] focus:border-[#1e3a6e] block w-full sm:text-sm border-gray-300 rounded-lg px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">WhatsApp <span class="text-red-500">*</span></label>
+                                        <input type="text" name="whatsapp" value="{{ old('whatsapp', $order->whatsapp) }}" required class="shadow-sm focus:ring-[#1e3a6e] focus:border-[#1e3a6e] block w-full sm:text-sm border-gray-300 rounded-lg px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Instansi / Perusahaan</label>
+                                        <input type="text" name="company_name" value="{{ old('company_name', $order->company_name) }}" class="shadow-sm focus:ring-[#1e3a6e] focus:border-[#1e3a6e] block w-full sm:text-sm border-gray-300 rounded-lg px-3 py-2 border">
+                                    </div>
+                                    
+                                    <div class="border-t border-gray-100 my-2"></div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Produk <span class="text-red-500">*</span></label>
+                                        <input type="text" name="product_type" value="{{ old('product_type', $order->product_type) }}" required class="shadow-sm focus:ring-[#1e3a6e] focus:border-[#1e3a6e] block w-full sm:text-sm border-gray-300 rounded-lg px-3 py-2 border">
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Warna <span class="text-red-500">*</span></label>
+                                            <input type="text" name="color" value="{{ old('color', $order->color) }}" required class="shadow-sm focus:ring-[#1e3a6e] focus:border-[#1e3a6e] block w-full sm:text-sm border-gray-300 rounded-lg px-3 py-2 border">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-1">Jumlah <span class="text-red-500">*</span></label>
+                                            <input type="number" name="quantity" value="{{ old('quantity', $order->quantity) }}" required min="1" class="shadow-sm focus:ring-[#1e3a6e] focus:border-[#1e3a6e] block w-full sm:text-sm border-gray-300 rounded-lg px-3 py-2 border">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Estimasi Selesai <span class="text-red-500">*</span></label>
+                                        <input type="date" name="estimated_finish" value="{{ old('estimated_finish', substr($order->estimated_finish, 0, 10)) }}" required class="shadow-sm focus:ring-[#1e3a6e] focus:border-[#1e3a6e] block w-full sm:text-sm border-gray-300 rounded-lg px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">No. Resi Pengiriman</label>
+                                        <input type="text" name="resi_number" value="{{ old('resi_number', $order->resi_number) }}" placeholder="Kosongkan jika belum ada" class="shadow-sm focus:ring-[#1e3a6e] focus:border-[#1e3a6e] block w-full sm:text-sm border-gray-300 rounded-lg px-3 py-2 border">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Prioritas Pesanan <span class="text-red-500">*</span></label>
+                                        <div class="flex gap-4">
+                                            <label class="inline-flex items-center">
+                                                <input type="radio" name="is_priority" value="0" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500" {{ old('is_priority', $order->is_priority) == '0' ? 'checked' : '' }}>
+                                                <span class="ml-2 text-sm text-gray-700 font-medium">Normal</span>
+                                            </label>
+                                            <label class="inline-flex items-center">
+                                                <input type="radio" name="is_priority" value="1" class="w-4 h-4 text-red-600 border-gray-300 focus:ring-red-500" {{ old('is_priority', $order->is_priority) == '1' ? 'checked' : '' }}>
+                                                <span class="ml-2 text-sm text-red-600 font-medium flex items-center gap-1">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                                    Prioritas
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    @if(in_array(session('admin_role', 'owner'), ['owner', 'keuangan']))
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Total Harga / Omzet (Rp)</label>
+                                        <input type="number" name="total_price" value="{{ old('total_price', $order->total_price) }}" min="0" placeholder="0" class="shadow-sm focus:ring-[#1e3a6e] focus:border-[#1e3a6e] block w-full sm:text-sm border-gray-300 rounded-lg px-3 py-2 border">
+                                    </div>
+                                    @else
+                                    <input type="hidden" name="total_price" value="{{ $order->total_price }}">
+                                    @endif
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Catatan Tambahan</label>
+                                        <textarea name="notes" rows="2" class="shadow-sm focus:ring-[#1e3a6e] focus:border-[#1e3a6e] block w-full sm:text-sm border-gray-300 rounded-lg px-3 py-2 border">{{ old('notes', $order->notes) }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button type="submit" class="w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-4 py-2 bg-[#1e3a6e] text-base font-medium text-white hover:bg-[#132848] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1e3a6e] sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                            Simpan Perubahan
+                        </button>
+                        <button type="button" @click="showEditModal = false" class="mt-3 w-full inline-flex justify-center rounded-xl border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1e3a6e] sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                            Batal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div x-show="deleteModal" style="display: none;" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div x-show="deleteModal" x-transition.opacity class="fixed inset-0 bg-gray-500/75 backdrop-blur-sm transition-opacity" aria-hidden="true" @click="deleteModal = false"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div x-show="deleteModal" x-transition class="relative inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
+                <form action="{{ url('/admin/pesanan/' . $order->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                            </div>
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                                <h3 class="text-lg leading-6 font-bold text-gray-900" id="modal-title">Hapus Pesanan</h3>
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-500">Apakah Anda yakin ingin menghapus pesanan ini? Aksi ini tidak dapat dibatalkan dan semua data yang terkait akan terhapus permanen.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button type="submit" class="w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-4 py-2 bg-[#dc2626] text-base font-medium text-white hover:bg-[#b91c1c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#dc2626] sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                            Ya, Hapus
+                        </button>
+                        <button type="button" @click="deleteModal = false" class="mt-3 w-full inline-flex justify-center rounded-xl border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1e3a6e] sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                            Batal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection

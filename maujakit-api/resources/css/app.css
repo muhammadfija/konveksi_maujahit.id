@@ -109,3 +109,156 @@ body {
 .spinner {
   animation: spin 1s linear infinite;
 }
+
+/* ===== Kategori Produk Grid ===== */
+.produk-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.produk-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.produk-main-img {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+.produk-main-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.produk-thumbs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.produk-thumb-btn {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 3rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.produk-thumb-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.produk-thumb-btn.active {
+  opacity: 1;
+}
+
+.produk-thumb-btn.inactive {
+  opacity: 0.3;
+}
+
+.produk-thumb-btn.inactive:hover {
+  opacity: 0.7;
+}
+
+/* ===== Galeri Kegiatan ===== */
+.galeri-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.galeri-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: pointer;
+  aspect-ratio: 16/10;
+  background: #e5e7eb;
+}
+
+.galeri-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.galeri-item:hover img {
+  transform: scale(1.05);
+}
+
+.galeri-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.galeri-item:hover .galeri-overlay {
+  background: rgba(0,0,0,0.45);
+}
+
+.galeri-play {
+  width: 60px;
+  height: 60px;
+  background: rgba(255,255,255,0.2);
+  border: 2px solid white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.galeri-item:hover .galeri-play {
+  transform: scale(1.1);
+  background: rgba(255,255,255,0.35);
+}
+
+.galeri-caption {
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 0 12px;
+  margin-top: 8px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s, transform 0.3s;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+}
+
+.galeri-item:hover .galeri-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .galeri-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

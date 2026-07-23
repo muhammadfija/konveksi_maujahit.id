@@ -367,7 +367,7 @@
                             @php
                             $statusColors = [
                             'ORDER_MASUK' => 'bg-gray-100 text-gray-800',
-                            'SELESAI' => 'bg-green-100 text-green-800',
+                            'KIRIM' => 'bg-green-100 text-green-800',
                             'MENUNGGU_PELUNASAN' => 'bg-purple-100 text-purple-800',
                             ];
                             $colorClass = $statusColors[$order->current_status] ?? 'bg-blue-100 text-blue-800';

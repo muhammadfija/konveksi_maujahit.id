@@ -17,8 +17,8 @@ class AdminOrderController extends Controller
         $endDate = $request->end_date ? \Carbon\Carbon::parse($request->end_date)->endOfDay() : now()->endOfMonth();
         $stats = [
             'total'       => Order::count(),
-            'in_progress' => Order::whereNotIn('current_status', ['ORDER_MASUK', 'SELESAI'])->count(),
-            'completed'   => Order::where('current_status', 'SELESAI')->count(),
+            'in_progress' => Order::whereNotIn('current_status', ['ORDER_MASUK', 'KIRIM'])->count(),
+            'completed'   => Order::where('current_status', 'KIRIM')->count(),
             'wait_payment'=> Order::where('current_status', 'DP_PELUNASAN')->count(),
             'terlambat'   => Order::whereNotIn('current_status', ['KIRIM'])->whereDate('estimated_finish', '<', now()->startOfDay())->count(),
             'deadline_hari_ini' => Order::whereNotIn('current_status', ['KIRIM'])->whereDate('estimated_finish', today())->count(),
