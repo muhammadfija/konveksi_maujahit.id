@@ -40,20 +40,20 @@
             <nav class="flex-1 overflow-y-auto py-4 px-2">
                 @php
                 $role = session('admin_role', 'owner');
-                
+
                 $menuUtama = [];
                 $menuUtama[] = ['href' => url('/admin/dashboard'), 'icon' => 'grid', 'label' => 'Dashboard', 'active' => request()->is('admin/dashboard')];
-                $menuUtama[] = ['href' => url('/admin/pesanan'), 'icon' => 'list', 'label' => 'Pesanan', 'active' => request()->is('admin/pesanan')];
-                
+                $menuUtama[] = ['href' => url('/admin/pesanan'), 'icon' => 'list', 'label' => 'Pesanan', 'active' => request()->is('admin/pesanan') && !request()->is('admin/pesanan/baru')];
+
                 if (in_array($role, ['owner', 'admin_cs'])) {
                     $menuUtama[] = ['href' => url('/admin/pesanan/baru'), 'icon' => 'plus-circle', 'label' => 'Tambah Pesanan', 'active' => request()->is('admin/pesanan/baru')];
                 }
 
                 $navItems = [
-                    'MENU UTAMA' => $menuUtama,
-                    'LAINNYA' => [
-                        ['href' => url('/admin/profile'), 'icon' => 'user', 'label' => 'Profil Admin', 'active' => request()->is('admin/profile')],
-                    ]
+                'MENU UTAMA' => $menuUtama,
+                'LAINNYA' => [
+                ['href' => url('/admin/profile'), 'icon' => 'user', 'label' => 'Profil Admin', 'active' => request()->is('admin/profile')],
+                ]
                 ];
                 @endphp
 

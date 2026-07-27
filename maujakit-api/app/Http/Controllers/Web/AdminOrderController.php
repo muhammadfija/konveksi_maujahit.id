@@ -332,7 +332,7 @@ class AdminOrderController extends Controller
 
     public function destroy(string $id)
     {
-        abort_if(session('admin_role') !== 'owner', 403, 'Akses Ditolak. Hanya Owner yang dapat menghapus pesanan.');
+        abort_if(!in_array(session('admin_role'), ['owner', 'admin_cs']), 403, 'Akses Ditolak. Hanya Owner dan Admin CS yang dapat menghapus pesanan.');
 
         $order = Order::findOrFail($id);
         $order->delete();
@@ -396,7 +396,7 @@ class AdminOrderController extends Controller
 
     public function uploadPhoto(Request $request, $id)
     {
-        abort_if(!in_array(session('admin_role'), ['owner', 'admin_produksi', 'gudang']), 403, 'Akses Ditolak.');
+        abort_if(!in_array(session('admin_role'), ['owner', 'admin_cs', 'admin_produksi', 'gudang']), 403, 'Akses Ditolak.');
 
         $order = Order::findOrFail($id);
 

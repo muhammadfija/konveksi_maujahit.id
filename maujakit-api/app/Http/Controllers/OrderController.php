@@ -207,17 +207,20 @@ class OrderController extends Controller
     public function stats(): JsonResponse
     {
         $total        = Order::count();
-        $inProgress   = Order::whereNotIn('current_status', ['ORDER_MASUK', 'SELESAI'])->count();
-        $completed    = Order::where('current_status', 'SELESAI')->count();
-        $waitPayment  = Order::where('current_status', 'MENUNGGU_PELUNASAN')->count();
+        // Dalam proses = semua kecuali ORDER_MASUK dan KIRIM
+        $inProgress   = Order::whereNotIn('current_status', ['ORDER_MASUK', 'KIRIM'])->count();
+        // Selesai = sudah sampai tahap KIRIM (tahap terakhir)
+        $completed    = Order::where('current_status', 'KIRIM')->count();
+        // Menunggu pelunasan = sedang di tahap DP/Pelunasan
+        $waitPayment  = Order::where('current_status', 'DP_PELUNASAN')->count();
 
         return response()->json([
             'success' => true,
             'data' => [
-                'total'       => $total,
-                'in_progress' => $inProgress,
-                'completed'   => $completed,
-                'wait_payment'=> $waitPayment,
+                'total'        => $total,
+                'in_progress'  => $inProgress,
+                'completed'    => $completed,
+                'wait_payment' => $waitPayment,
             ],
         ]);
     }

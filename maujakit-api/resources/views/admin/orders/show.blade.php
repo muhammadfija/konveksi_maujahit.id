@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="flex gap-2 w-full sm:w-auto">
-            @if(in_array(session('admin_role', 'owner'), ['owner', 'admin_produksi', 'gudang']))
+            @if(in_array(session('admin_role', 'owner'), ['owner', 'admin_cs', 'admin_produksi', 'gudang']))
             <button @click="updateStatusModal = true" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#1e3a6e] hover:bg-[#132848] text-white rounded-xl font-medium transition-colors shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
                 Update Status
@@ -96,7 +96,7 @@
                         </button>
                         @endif
 
-                        @if(session('admin_role', 'owner') === 'owner')
+                        @if(in_array(session('admin_role', 'owner'), ['owner', 'admin_cs']))
                         <button @click="deleteModal = true" class="text-sm font-medium text-red-600 hover:text-red-700 bg-red-50 px-3 py-1.5 rounded-lg transition-colors">
                             Hapus
                         </button>
@@ -149,7 +149,7 @@
                                 <p class="font-medium text-gray-900">{{ $order->resi_number ?: '-' }}</p>
                             </div>
                         </div>
-                        @if(in_array(session('admin_role', 'owner'), ['owner', 'keuangan']))
+                        @if(in_array(session('admin_role', 'owner'), ['owner', 'admin_cs', 'keuangan']))
                         <div>
                             <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Total Harga / Omzet</p>
                             <p class="font-medium text-green-600 font-bold">Rp {{ number_format((int)$order->total_price, 0, ',', '.') }}</p>
@@ -423,7 +423,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                    @if(in_array(session('admin_role', 'owner'), ['owner', 'keuangan']))
+                                    @if(in_array(session('admin_role', 'owner'), ['owner', 'admin_cs', 'keuangan']))
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Total Harga / Omzet (Rp)</label>
                                         <input type="number" name="total_price" value="{{ old('total_price', $order->total_price) }}" min="0" placeholder="0" class="shadow-sm focus:ring-[#1e3a6e] focus:border-[#1e3a6e] block w-full sm:text-sm border-gray-300 rounded-lg px-3 py-2 border">

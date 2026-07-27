@@ -90,7 +90,7 @@
         </div>
     @endif
 
-    @if(!in_array(session('admin_role'), ['admin_produksi', 'gudang', 'keuangan']))
+    @if(in_array(session('admin_role'), ['owner', 'admin_cs']))
     <!-- Prioritas & Indikator -->
     <div class="mb-8">
         <h2 class="font-bold text-gray-900 mb-4">Prioritas & Indikator</h2>
@@ -223,7 +223,7 @@
     </div>
     @endif
 
-    @if(!in_array(session('admin_role'), ['admin_produksi', 'gudang', 'keuangan']))
+    @if(in_array(session('admin_role', 'owner'), ['owner', 'admin_cs']))
     <!-- Stats Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <!-- Total Orders -->
