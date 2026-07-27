@@ -19,7 +19,17 @@ return new class extends Migration
             $table->string('color');
             $table->text('notes')->nullable();
             $table->date('estimated_finish');
-            $table->string('current_status', 30)->default('ORDER_MASUK');
+            $table->enum('current_status', [
+                'ORDER_MASUK',
+                'DP_PELUNASAN',
+                'DESAIN',
+                'BELI_BAHAN',
+                'POTONG',
+                'JAHIT',
+                'QC',
+                'PACKING',
+                'KIRIM',
+            ])->default('ORDER_MASUK');
             $table->string('resi_number')->nullable();
             $table->timestamps();
         });
